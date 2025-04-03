@@ -22,7 +22,7 @@ summary_df.dropna(subset=["summary"], inplace=True)
 st.title("🎬 유튜브 요약 탐색기")
 user_query = st.text_input("요약을 보고 싶은 주제를 입력하세요 (예: 프롬프트 엔지니어링, LLM, 논란 등)")
 
-if user_query:
+if user_query:    
     keywords = re.split(r"[\s,]+", user_query.lower())
     pattern = "|".join([re.escape(k) for k in keywords if k])
 
