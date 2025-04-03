@@ -78,6 +78,10 @@ summarizer_agent = AssistantAgent(
     """
 )
 
+## 이메일 작성을 위한 에이전트를 만들 계획 
+
+## 실희님 승현쿤 작업
+
 register_function(
   tavily_search,
   caller=research_agent,

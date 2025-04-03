@@ -1,9 +1,9 @@
 import streamlit as st
 from src.group_chat import manager, groupchat
-from src.agent_manager import user_proxy, summarizer_agent
+from src.agent_manager import user_proxy
 
-st.set_page_config(page_title="채팅 테스트", layout="centered")
-st.title("💬 나랑 채팅해봐!")
+st.set_page_config(page_title="멀티 에이전트 보고서 서버", layout="centered")
+st.title("💬 멀티에이전트를 통한 서비스")
 
 # 세션 상태 초기화
 if "chat_history" not in st.session_state:

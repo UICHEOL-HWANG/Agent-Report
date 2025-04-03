@@ -86,3 +86,5 @@ def tavily_search(query: str, max_results: int = 2, chunks_per_source: int =1) -
     for result in response:
         results.append(f"URL: {result['url']}\nContent: {result['content']}\n")
     return "\n".join(results)
+
+## 에이전트가 이메일을 작성할 수 있게끔, tool을 함수형태로 작성해야한다. 
