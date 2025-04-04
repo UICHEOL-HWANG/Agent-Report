@@ -11,3 +11,5 @@ llm_config = {
 google_search = os.getenv("GOOGLE_SEARCH_API")
 
 serper = os.getenv("SERPER_AI")
+sender = os.getenv("EMAIL_ADDRESS")
+password = os.getenv("EMAIL_PASSWORD")

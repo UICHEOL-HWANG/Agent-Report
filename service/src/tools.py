@@ -13,11 +13,14 @@ from typing import Annotated
 import requests
 from youtube_transcript_api import YouTubeTranscriptApi
     
-from .config import load_dotenv, google_search, serper
+from .config import load_dotenv, google_search, serper, sender, password
 from .type_schemas import YouTubeSummaryInput
 
-from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
-from langchain_community.tools import DuckDuckGoSearchResults
+import markdown
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 
 def youtube_script(input: Annotated[YouTubeSummaryInput, "유튜브 검색 쿼리 입력값"]) -> str:
     """
@@ -148,4 +151,36 @@ def news_search_serper(query: str) -> str:
     return result.strip()
 
 
-## 에이전트가 이메일을 작성할 수 있게끔, tool을 함수형태로 작성해야한다. 
+## 이메일 전송 
+
+
+
+def markdown_to_html(md_text: str) -> str:
+    return markdown.markdown(md_text)
+
+def send_email(to: str, content_markdown: str):
+    senders = sender  # 발신자 이메일
+    passwords = password     # 앱 비밀번호 or SMTP 패스워드
+    smtp_server = "smtp.gmail.com"
+    smtp_port = 587
+
+
+    # 마크다운 → HTML 변환
+    content_html = markdown.markdown(content_markdown)
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = "📝 멀티에이전트 요약 보고서"
+    msg["From"] = sender
+    msg["To"] = to
+
+    # 텍스트 + HTML 버전 둘 다 첨부 (이메일 클라이언트 호환성↑)
+    part1 = MIMEText(content_markdown, "plain", "utf-8")
+    part2 = MIMEText(content_html, "html", "utf-8")
+
+    msg.attach(part1)
+    msg.attach(part2)
+
+    with smtplib.SMTP(smtp_server, smtp_port) as server:
+        server.starttls()
+        server.login(senders, passwords)
+        server.send_message(msg)

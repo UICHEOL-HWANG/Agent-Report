@@ -1,6 +1,7 @@
 import streamlit as st
 from src.group_chat import manager, groupchat
 from src.agent_manager import user_proxy
+from src.tools import send_email
 
 st.set_page_config(page_title="멀티 에이전트 보고서 서버", layout="centered")
 st.title("💬 멀티에이전트를 통한 서비스")
@@ -83,6 +84,34 @@ if user_input:
             with chat_container:
                 with st.chat_message("assistant"):
                     st.markdown(last_msg.get("content", "응답을 생성하지 못했습니다."))
+                    
+# 이메일 UI를 "assistant 메시지가 존재할 때만" 보이게 설정
+has_assistant_response = any(msg["role"] == "assistant" for msg in st.session_state.chat_history)
+
+if has_assistant_response:
+    st.markdown("---")
+    st.subheader("📧 요약 보고서를 이메일로 받기")
+
+    user_email = st.text_input("이메일 주소를 입력하세요", placeholder="your@email.com")
+
+    if st.button("📨 이메일로 보고서 보내기"):
+        if not user_email:
+            st.warning("이메일 주소를 입력해주세요.")
+        else:
+            last_response = next(
+                (msg["content"] for msg in reversed(st.session_state.chat_history) if msg["role"] == "assistant"),
+                None
+            )
+            if last_response:
+                with st.spinner("이메일 전송 중..."):
+                    try:
+                        send_email(to=user_email, content_markdown=last_response)
+                        st.success("✅ 이메일이 성공적으로 전송되었습니다.")
+                    except Exception as e:
+                        st.error(f"❌ 이메일 전송 실패: {e}")
+            else:
+                st.warning("보낼 assistant 메시지를 찾을 수 없습니다.")
+
 
 # 디버깅 정보 (선택적)
 if st.checkbox("디버깅 정보 보기"):
