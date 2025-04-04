@@ -9,6 +9,16 @@ from youtube_transcript_api import YouTubeTranscriptApi
     
 from .config import load_dotenv, google_search
 
+import smtplib
+import os
+from dotenv import load_dotenv
+from email.message import EmailMessage
+
+
+load_dotenv(override=True)
+sender_email=os.environ.get('SENDER_EMAIL')
+sender_pw=os.environ.get('SENDER_PASSWORD')
+
 def youtube_script(query: str) -> str:
     """
     유튜브에서 관련 영상을 검색하고 자막을 요약하여 반환합니다.
@@ -41,7 +51,7 @@ def youtube_script(query: str) -> str:
             continue
 
     # 내부에서 llm 생성
-    llm = ChatOpenAI(model_name="gpt-4o-mini-2024-07-18", temperature=0)
+    llm = ChatOpenAI(model_name="gpt-4o-mini-2024-07-18", temperature=0) # 1차 정리
 
     map_prompt = """
     다음은 유튜브 자막입니다:
@@ -86,3 +96,25 @@ def tavily_search(query: str, max_results: int = 2, chunks_per_source: int =1) -
     for result in response:
         results.append(f"URL: {result['url']}\nContent: {result['content']}\n")
     return "\n".join(results)
+
+
+# 메일 전송 함수수
+def send_email(to_email,message):
+
+    try:
+        # 이메일 메세지 생성
+        msg=EmailMessage()
+        msg['From']=sender_email
+        msg['To']=to_email
+        # msg['Subject'] = keward # 검색 키워드를 제목으로?
+        msg.set_content(message)
+
+        # SMTP 서버 설정 (gmail기준)
+        with smtplib.SMTP_SSL('smtp.gmail.com',465) as server:
+            server.login(sender_email, sender_pw)
+            server.send_message(msg)
+        return '이메일 전송 성공공'
+    except Exception as e:
+        return f'이메일 전송 실패: {str(e)}'
+
+        

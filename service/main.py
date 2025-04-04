@@ -2,6 +2,9 @@ import streamlit as st
 from src.group_chat import manager, groupchat
 from src.agent_manager import user_proxy, summarizer_agent
 
+from src.tools import send_email
+
+
 st.set_page_config(page_title="채팅 테스트", layout="centered")
 st.title("💬 나랑 채팅해봐!")
 
@@ -83,6 +86,22 @@ if user_input:
             with chat_container:
                 with st.chat_message("assistant"):
                     st.markdown(last_msg.get("content", "응답을 생성하지 못했습니다."))
+
+# 버튼을 누르면 메일 입력창 표시
+
+if 'show_email_from' not in st.session_state:
+    st.session_state.show_email_form=False
+
+if st.button('메일 보내기'):
+    st.session_state.show_email_form = True
+
+# 이메일 입력 폼 표시
+if st.session_state.show_email_form:
+    email = st.text_input('이메일 주소를 입력하세요')
+    if st.button('메일 전송'):
+        last_message = groupchat.message[-1]
+        send_email(email, last_message)
+        
 
 # 디버깅 정보 (선택적)
 if st.checkbox("디버깅 정보 보기"):
