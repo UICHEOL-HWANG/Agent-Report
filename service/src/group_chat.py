@@ -5,7 +5,7 @@ from .config import llm_config
 groupchat = GroupChat(  # ✅ 여기도 변경!
     agents=agents,
     messages=[],
-    max_round=5
+    max_round=6
 )
 
 manager = GroupChatManager(

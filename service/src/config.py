@@ -9,3 +9,5 @@ llm_config = {
 }
 
 google_search = os.getenv("GOOGLE_SEARCH_API")
+
+serper = os.getenv("SERPER_AI")
