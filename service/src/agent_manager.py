@@ -2,12 +2,6 @@ from autogen import AssistantAgent, UserProxyAgent, register_function
 from .config import llm_config
 from .tools import tavily_search, youtube_script, news_search_serper
 import os 
-import chromadb
-from chromadb.utils import embedding_functions
-
-
-docs_path = "C:/Users/user/Desktop/agent/docs"
-
 
 classification_agent = AssistantAgent(
     name="classification_agent",
