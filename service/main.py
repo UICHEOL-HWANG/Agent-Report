@@ -2,9 +2,14 @@ import streamlit as st
 from src.group_chat import manager, groupchat
 from src.agent_manager import user_proxy
 from src.tools import send_email
+import os 
 
 st.set_page_config(page_title="멀티 에이전트 보고서 서버", layout="centered")
-st.title("💬 멀티에이전트를 통한 서비스")
+st.markdown("""
+<h1 style='text-align: center; color: #4A90E2;'>🤖 Multi-Agent Intelligence Service</h1>
+<p style='text-align: center; font-size: 18px; color: gray;'>문서 요약 · 뉴스 검색 · 유튜브 리서치</p>
+""", unsafe_allow_html=True)
+
 
 # 세션 상태 초기화
 if "chat_history" not in st.session_state:
@@ -112,6 +117,7 @@ if has_assistant_response:
             else:
                 st.warning("보낼 assistant 메시지를 찾을 수 없습니다.")
 
+        
 
 # 디버깅 정보 (선택적)
 if st.checkbox("디버깅 정보 보기"):

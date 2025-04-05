@@ -13,7 +13,7 @@ from typing import Annotated
 import requests
 from youtube_transcript_api import YouTubeTranscriptApi
     
-from .config import load_dotenv, google_search, serper, sender, password
+from .config import load_dotenv, GOOGLE_SEARCH_API, SERPER_API, EMAIL_ADDRESS, EMAIL_PASSWORDS
 from .type_schemas import YouTubeSummaryInput
 
 import markdown
@@ -31,7 +31,7 @@ def youtube_script(input: Annotated[YouTubeSummaryInput, "유튜브 검색 쿼�
         "q": input.query,
         "type": "video",
         "part": "snippet",
-        "key": google_search,
+        "key": GOOGLE_SEARCH_API,
         "maxResults": 3,
         "fields": "items(id,snippet(title))",
         "videoEmbeddable": True,
@@ -132,7 +132,7 @@ def news_search_serper(query: str) -> str:
     }
 
     headers = {
-        'X-API-KEY': serper, 
+        'X-API-KEY': SERPER_API, 
         'Content-Type': 'application/json'
     }
 
@@ -153,14 +153,12 @@ def news_search_serper(query: str) -> str:
 
 ## 이메일 전송 
 
-
-
 def markdown_to_html(md_text: str) -> str:
     return markdown.markdown(md_text)
 
 def send_email(to: str, content_markdown: str):
-    senders = sender  # 발신자 이메일
-    passwords = password     # 앱 비밀번호 or SMTP 패스워드
+    senders = EMAIL_ADDRESS  # 발신자 이메일
+    passwords = EMAIL_PASSWORDS     # 앱 비밀번호 or SMTP 패스워드
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
 
@@ -170,7 +168,7 @@ def send_email(to: str, content_markdown: str):
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = "📝 멀티에이전트 요약 보고서"
-    msg["From"] = sender
+    msg["From"] = "no-reply"
     msg["To"] = to
 
     # 텍스트 + HTML 버전 둘 다 첨부 (이메일 클라이언트 호환성↑)
