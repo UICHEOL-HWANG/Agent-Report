@@ -9,7 +9,7 @@ st.markdown("""
 <h1 style='text-align: center; color: #4A90E2;'>🤖 Multi-Agent Intelligence Service</h1>
 <p style='text-align: center; font-size: 18px; color: gray;'>문서 요약 · 뉴스 검색 · 유튜브 리서치</p>
 """, unsafe_allow_html=True)
-
+ 
 
 # 세션 상태 초기화
 if "chat_history" not in st.session_state:
