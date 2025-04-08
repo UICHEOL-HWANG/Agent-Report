@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import streamlit as st
 
-# .env 파일 로드 (로컬에서만 작동)
+# .env 파일 로드 (로컬에서만 작동) 
 load_dotenv()
 
 def get_env_var(key):
