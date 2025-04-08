@@ -215,7 +215,6 @@ typing_extensions==4.13.0
 tzdata==2025.2
 urllib3==2.3.0
 uvicorn==0.34.0
-watchdog==0.10.4
 watchfiles==1.0.4
 wcwidth==0.2.13
 websocket-client==1.8.0
