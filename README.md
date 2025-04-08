@@ -79,5 +79,5 @@ README.md                     # 프로젝트 설명
 - 이메일 전송 (SMTP)
 - Serper 뉴스 API, Tavily 검색 API, YouTube API
 
----
-
+## 발표자료 미리보기 
+[![PDF 미리보기](./image/Agent_ppt-01.png)](./present/Agent_ppt.pdf)
