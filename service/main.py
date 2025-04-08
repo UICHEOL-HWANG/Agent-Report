@@ -11,6 +11,7 @@ st.markdown("""
 <p style='text-align: center; font-size: 18px; color: gray;'>문서 요약 · 뉴스 검색 · 유튜브 리서치</p>
 """, unsafe_allow_html=True)
 
+
 # 세션 상태 초기화
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
@@ -124,8 +125,6 @@ if has_assistant_response:
 if 'show_email_from' not in st.session_state:
     st.session_state.show_email_form=False
 
-if st.button('메일 보내기'):
-    st.session_state.show_email_form = True
 
 # 이메일 입력 폼 표시
 if st.session_state.show_email_form:

@@ -167,7 +167,7 @@ def send_email(to: str, content_markdown: str):
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = "📝 멀티에이전트 요약 보고서"
-    msg["From"] = "no-reply"
+    msg["From"] = 'no-reply'
     msg["To"] = to
 
     # 텍스트 + HTML 버전 둘 다 첨부 (이메일 클라이언트 호환성↑)
